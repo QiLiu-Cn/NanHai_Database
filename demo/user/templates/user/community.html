@@ -1,0 +1,89 @@
+{% extends "base.html" %} {% block mainbody %}
+
+<div class="container">
+    <div class="col-md-12">
+        <h3 class="page-header"><i class="icon_document" aria-hidden="true"></i> 时序列查询 </h3>
+            <ol class="breadcrumb">
+                <li><i class="fa fa-home"></i><a href="\">Home</a></li>
+                <li><i class="icon_document" aria-hidden="true"></i>时序列查询</li>
+            </ol>
+    </div>
+
+    <div class = "col-md-12">
+        <div class="panel panel-default ">
+            <header class = "panel-heading">
+                查询条件：查询证据内容中关键词
+            </header>
+            <div class = "panel-body">
+                <!--搜索框-->
+                <form method = "get" id = 'searchEntityForm'>
+                    <div >
+                        <div class="input-group">
+                            <input type="text" id = "user_text" name = "user_text" class="form-control" placeholder="输入待查询字段" aria-describedby="basic-addon1">
+                            <span class="btn btn-primary input-group-addon" type="button" id="relationSearchButton" style="background-color:#4592fe ; padding:6px 38px" onclick="document.getElementById('searchEntityForm').submit();">查询</span>
+                         </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+        {% if flag %}
+    <div class="col-md-9">
+    <div class="panel panel-default">
+        <header class = "panel-heading">
+            查询路径：
+                {% if entity %}
+                    关键词-->{{ entity }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                {% endif %}
+                {% if fil_class %}
+                    年份->{{ fil_class }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                {% endif %}
+        </header>
+        <div class="panel-body">
+            <div class="page-header">
+                共查询到{{ count }}条证据，证据时序列表如下：
+                </div>
+            {% if zhengjus %}
+<table class = "table" data-paging =  "true" data-sorting="true">
+    <tr>
+        <th><center>证据编号</center></th>
+        <th><center>证据内容</center></th>
+    </tr>
+    <tbody>
+    {% for zhengju in page_obj %}
+    <tr>
+        <td><a href="/search_entity?user_text={{ zhengju.number }}" >{{ zhengju.number }}</a></td>
+        <td>{{ zhengju.content }}</td>
+<!--note_id参数放至id变量中随get请求一起传到服务器，服务器即可获取到这一键值对-->
+        {% endfor %}
+    </tbody>
+</table>
+            {% if all_page == 1 %}
+            {% else %}
+            <center>=========================================================
+                <br>当前页面为第{{ page }}页，共{{ all_page }}页<br>第&nbsp;&nbsp;&nbsp;
+            {% for page in page_range %}
+            <a href="/user/search?page={{ page }}&user_text={{ entity }}&fil_class={{ fil_class }}&">{{ page }}</a>&nbsp;&nbsp;&nbsp;
+        {% endfor %}页</center>
+
+            {% endif %}
+            {% endif %}
+</div>
+        </div></div>
+    <div class="col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <h4>时间列表：<a href="/user/search?user_text={{ entity }}&">返回全部</a></h4>
+                            {% for n in new %}
+                            {% if n.id__count > 0 %}
+                            <a href="/user/search?page=&user_text={{ entity }}&fil_class={{ n.year }}">{{ n.year }}年</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            {% endif %}
+                            {% endfor %}
+
+                        </div></div></div>
+    {% endif %}
+</div>
+
+{% endblock %}

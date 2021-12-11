@@ -1,0 +1,107 @@
+{% extends "base.html" %} {% block mainbody %}
+
+
+	<style type="text/css">
+		body{
+			font:14px/28px "微软雅黑";
+		}
+		     .button {
+        width: 200px;
+        padding:8px;
+        background-color: #428bca;
+        border-color: #357ebd;
+        color: #fff;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        border-radius: 10px; /* future proofing */
+        -khtml-border-radius: 10px; /* for old Konqueror browsers */
+        text-align: center;
+        vertical-align: middle;
+        border: 1px solid transparent;
+        font-weight: 900;
+        font-size:125%
+      }
+		.contact *:focus{              /*去除浏览器带的边框样式*/
+			outline: none;
+		}
+		.contact{
+			width:700px;
+			height: auto;
+			background: #F6F6F6;
+			margin: 40px auto;
+			padding: 10px;
+		}
+		.contact ul{
+			width: 700px;
+		}
+		.contact ul li{
+			border-bottom: 1px solid #DFDFDF;
+			padding: 12px;
+		}
+		.contact ul li label{
+			width: 120px;
+			display: inline-block;
+			float: left;
+		}
+		.contact ul li input[type=text]{
+			width: 220px;
+			height: 20px;
+			border:1px solid #AAAAAA;
+			padding:3px 8px;
+			border-radius: 5px;              /*圆角*/
+			background: url("star.jpg") no-repeat #FFF 98%;
+			transition: padding .25s;                /*过渡*/
+			/*兼容性考虑*/
+			-o-transition: padding .25s;             /* Opera */
+			-moz-transition: padding .25s;           /* Firefox 4 */
+			-webkit-transition: padding .25s;        /* Safari 和 Chrome */
+		}
+		.contact ul li textarea{
+			border:1px solid #AAAAAA;
+			padding:3px 8px;
+			border-radius: 5px;              /*圆角*/
+			background: url("star.jpg") no-repeat #FFF 98%;
+			transition: padding .25s;                /*过渡*/
+			/*兼容性考虑*/
+			-o-transition: padding .25s;             /* Opera */
+			-moz-transition: padding .25s;           /* Firefox 4 */
+			-webkit-transition: padding .25s;        /* Safari 和 Chrome */
+		}
+		.contact ul li input:focus{
+			border-color: #C00;
+			background-image: url("感叹号.jpg");
+			padding-right: 70px;     /*过渡*/
+		}
+		.contact ul li select{
+        　　width:100%;
+        　　 height:40px;
+        　　line-height:40px;
+        　　z-index:4;
+        　　position:absolute;
+        　　top:0;
+        　　left:0;
+        　　margin:0;
+        　　padding:0;
+        　　opacity:0;
+        　　font-size: 16px;
+        }
+	</style>
+
+<div class="contact">
+<form action="/user/add_note" method="post">
+    <ul>
+        <li>
+        <label>标题：</label><input type="text" name="title">
+        </li>
+
+    <li>
+        <label>正文：</label>
+        <textarea cols="60" rows="15" name="content"></textarea>
+    </li>
+        </ul>
+    <center>
+    <input type="submit" class="button" value="保存并公开">
+        </center>
+</form>
+</div>
+{% endblock %}

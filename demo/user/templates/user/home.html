@@ -1,0 +1,49 @@
+{% extends "base.html" %} {% block mainbody %}
+
+<div class="container">
+    <div class="col-md-12">
+        <h3 class="page-header"><i class="icon_upload" aria-hidden="true"></i> 更新日志 </h3>
+            <ol class="breadcrumb">
+                <li><i class="fa fa-home"></i><a href="\">Home</a></li>
+                <li><i class="icon_upload" aria-hidden="true"></i>更新日志</li>
+            </ol>
+    </div>
+
+    <div class="col-md-9">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="page-header">
+                </div>
+
+<table class = "table" data-paging =  "true" data-sorting="true">
+    <tr>
+        <th><center>标题</center></th>
+        <th><center>创建时间</center></th>
+    </tr>
+    <tbody>
+    {% for log in page_obj %}
+    <tr>
+        <td><a href="/user/artical?log_id={{ log.id }}" >{{ log.title }}</a></td>
+        <td>{{ log.create_time }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+            {% if page == 1 %}
+            {% else %}
+            <center>=========================================================
+                <br>当前页面为第{{ page }}页，共{{ all_page }}页<br>第&nbsp;&nbsp;&nbsp;
+            {% for page in page_range %}
+            <a href="/user/all_filter?page={{page}}&user_text={{ entity }}&fil_class={{ fil_class }}&fil_tag={{ fil_tag }}">{{ page }}</a>&nbsp;&nbsp;&nbsp;
+        {% endfor %}页</center>
+            {% endif %}
+</div>
+        </div></div>
+    <div class="col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+<!--                            <center><a href="/user/add_note"> -&#45;&#45;&#45;&#45;添加日志-&#45;&#45;&#45;&#45;</a></center>-->
+<h3>南海维权证据知识元构建的工作进展及说明</h3>
+                        </div></div></div></div>
+<script type="text/javascript" src="/static/js/jquery.min.js"></script>
+{% endblock %}
