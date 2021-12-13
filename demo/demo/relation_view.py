@@ -136,32 +136,6 @@ def search_relation(request):
 	return render(request,'search_road.html',{'ctx':ctx})
 
 
-
-
-def search_zhengming(request):
-	ctx = {}
-	if(request.GET):
-		db = neo_con
-		entity1 = request.GET['entity1_text']
-
-		searchResult = {}
-		#若只输入entity1,则输出与entity1有直接关系的实体和关系
-		if(len(entity1)  != 0 ):
-			searchResult = db.findAttributeDispaly(entity1)
-			searchResult = sortDict(searchResult)
-			# searchResult = {}
-			if(len(searchResult)>0):
-				return render(request,'zhengminglidaxiao.html',{'searchResult':json.dumps(searchResult,ensure_ascii=False)})
-
-
-
-		ctx= {'title' : '<h1>暂未找到相应的匹配</h1>'}
-		return render(request,'zhengminglidaxiao.html',{'ctx':ctx})
-
-
-	return render(request,'zhengminglidaxiao.html',{'ctx':ctx})
-
-
 def search_proof(request):
 	ctx = {}
 	if (request.GET):

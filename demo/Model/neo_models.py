@@ -121,52 +121,33 @@ class Neo4j():
 
 	# 数据库中的证明力大小关联
 	def findProof(self,entity1):
-		s1 = 0.5
-		s2 = 0.7
-		relationDict = []
-		relationDict1 = []
-		relationDict2 = []
-		answer1 = self.graph.run("MATCH (n1:证据编号 {name:\""+str(entity1)+"\"})- [rel:rel*] -> (n2:证据源) RETURN n1,rel,n2").data()
-		answer2 = self.graph.run("MATCH (n3:证据编号 {name:\"" + str(entity1) + "\"})- [rel:rel*] -> (n4:证据主题) RETURN n3,rel,n4").data()
 
-		if (answer1 is not None ):
-			if (answer2 is not None):
-			# for i in range(0,len(answer1)):
-			# 	tmp = {}
-			# 	start_node1 = answer1[i].start_node
-			# 	end_node1 = answer1[i].end_node
-			# 	end_node2 = answer2[i].end_node
-			# 	tmp['n1'] = start_node1
-			# 	tmp['n2'] = end_node1
-			# 	tmp['s1'] = s1
-			# 	tmp['n3'] = end_node2
-			# 	tmp['s2'] = s2
-			# 	tmp['s'] = s1*s2
-			# 	relationDict.append(tmp)
-			# for i in answer1:
-			# 	tmp = {}
-			# 	start_node1 = i.start_node
-			# 	end_node1 = i.end_node
-			# 	tmp['n1'] = start_node1
-			# 	tmp['n2'] = end_node1
-			# 	tmp['s1'] = str(s1)
-			# 	relationDict1.append(tmp)
-			# for j in answer2:
-			# 	tmp = {}
-			# 	end_node2 = j.end_node
-			# 	tmp['n3'] = end_node2
-			# 	tmp['s2'] = str(s2)
-			# 	tmp['s'] = str(s1 * s2)
-			# 	relationDict2.append(tmp)
-				for i in range(0,len(answer2)):
-					tmp = {}
-					tmp['n1'] = answer1[i]['n1']
-					tmp['n2'] = answer1[i]['n2']
-					tmp['s1'] = str(s1)
-					tmp['n3'] = answer2[i]['n4']
-					tmp['s2'] = str(s2)
-					tmp['s'] = str(s1*s2)
-					relationDict.append(tmp)
+		relationDict = []
+
+		answer0 = self.graph.run("MATCH (p:地点 {name:\""+str(entity1)+"\"})- [rel:rel*] -> (n1:证据编号) RETURN p,rel,n1").data()
+		answer1 = self.graph.run("MATCH (p:地点 {name:\""+str(entity1)+"\"})- [rel:rel*] -> (n2:证据效度) RETURN p,rel,n2").data()
+		answer2 = self.graph.run("MATCH (p:地点 {name:\"" + str(entity1) + "\"})- [rel:rel*] -> (n3:证据作用) RETURN p,rel,n3").data()
+		answer3 = self.graph.run("MATCH (p:地点 {name:\""+str(entity1)+"\"})- [rel:rel*] -> (n4:证据来源出处) RETURN p,rel,n4").data()
+		answer4 = self.graph.run("MATCH (p:地点 {name:\""+str(entity1)+"\"})- [rel:rel*] -> (n5:证据来源主体) RETURN p,rel,n5").data()
+		answer5 = self.graph.run("MATCH (p:地点 {name:\""+str(entity1)+"\"})- [rel:rel*] -> (n6:证据倾向) RETURN p,rel,n6").data()
+
+		if (answer0 is not None and answer1 is not None and answer2 is not None and answer3 is not None  and answer4 is not None and answer5 is not None):
+			for i in range(0,len(answer0)):
+				tmp = {}
+				tmp['p'] = answer0[i]['p']
+				tmp['loc'] = answer0[i]['rel']
+				tmp['n1'] = answer0[i]['n1']
+				tmp['n2'] = answer1[i]['n2']
+				tmp['qz1'] = answer1[i]['rel']
+				tmp['n3'] = answer2[i]['n3']
+				tmp['qz2'] = answer2[i]['rel']
+				tmp['n4'] = answer3[i]['n4']
+				tmp['qz3'] = answer3[i]['rel']
+				tmp['n5'] = answer4[i]['n5']
+				tmp['qz4'] = answer4[i]['rel']
+				tmp['n6'] = answer5[i]['n6']
+				tmp['qz5'] = answer5[i]['rel']
+				relationDict.append(tmp)
 		return relationDict
 
 
