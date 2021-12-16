@@ -28,6 +28,18 @@ def sortDict(relationDict):
 
 	return relationDict
 
+def sort(relationDict):
+	for i in range( len(relationDict) ):
+		relationName = relationDict[i]['n1']['name']
+		relationCount = relationCountDict.get(relationName)
+		if(relationCount is None ):
+			relationCount = 0
+		relationDict[i]['relationCount'] = relationCount
+
+	relationDict = sorted(relationDict,key = lambda item:item['relationCount'],reverse = True)
+
+	return relationDict
+
 def search_entity(request):
 	ctx = {}
 	#根据传入的实体名称搜索出关系
@@ -157,5 +169,32 @@ def search_proof(request):
 		return render(request, 'zhengminglidaxiao.html', {'ctx': ctx})
 
 	return render(request, 'zhengminglidaxiao.html', {'ctx': ctx})
+
+def proof(request):
+	ctx = {}
+	if (request.GET):
+		db = neo_con
+		entity1 = request.GET['entity1_text']
+
+		searchResult = []
+		# 若只输入entity1,则输出与entity1有直接关系的实体和关系
+		if (len(entity1) != 0):
+			searchResult1 = db.findRelationByEntity2(entity1)
+			searchResult1 = sortDict(searchResult1)
+			if(len(searchResult1)>0):
+				for i in range(len(searchResult1)):
+					name = searchResult1[i]['n1']['name']
+					searchResult2=db.findProof(name)
+					if len(searchResult2) != 0:
+						searchResult.append(searchResult2)
+			# searchResult = sort(searchResult)
+			return render(request,'type_display.html',{'searchResult':json.dumps(searchResult,ensure_ascii=False)})
+		else:
+			pass
+
+		ctx = {'title': '<h1>暂未找到相应的匹配</h1>'}
+		return render(request, 'type_display.html', {'ctx': ctx})
+
+	return render(request, 'type_display.html', {'ctx': ctx})
 
 # def search_attribute(request):

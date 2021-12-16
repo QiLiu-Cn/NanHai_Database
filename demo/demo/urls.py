@@ -19,5 +19,6 @@ urlpatterns = [
     path('user/', include('user.urls')),
     url(r'^zhengminglidaxiao',relation_view.search_proof),
     # url(r'attribute_contribute',relation_view.search_attribute)
+    url(r'^type_display',relation_view.proof),
 
 ]
