@@ -97,6 +97,7 @@
         relationData = {} ;
 		// relationData['entity0'] = searchResult[i]['p']['name']
 		// relationData['loc'] = searchResult[i]['loc']['type']
+		relationData['entity'] = searchResult[i]['n0']['name'];
 
         relationData['entity1'] = searchResult[i]['n1']['name'];
         relationData['content'] = searchResult[i]['n1']['content'];
@@ -122,15 +123,17 @@
         relationData['score5'] = searchResult[i]['n6']['score'] ;
 		// relationData['qz5'] = searchResult[i]['qz5'][0]['type'] ;
 
-		relationData['score'] = (relationData['qz1']*relationData['score1'] + relationData['qz2']*relationData['score2']
-								+ relationData['qz3']*relationData['score3']+ relationData['qz4']*relationData['score4'])
-								*relationData['score5'];
+		// relationData['score'] = (relationData['qz1']*relationData['score1'] + relationData['qz2']*relationData['score2']
+		// 						+ relationData['qz3']*relationData['score3']+ relationData['qz4']*relationData['score4'])
+		// 						*relationData['score5'];
+		relationData['score'] = searchResult[i]['score'] ;
         tableData.push(relationData) ;
     }
     jQuery(function(){
         $('.table').footable({
         "columns": [
 				// {"name":"entity0",title:"地点"} ,
+				{"name":"entity",title:"证据实体"},
 
 				{"name":"entity1",title:"证据编号"} ,
         		{"name":"content",title:"Content"} ,

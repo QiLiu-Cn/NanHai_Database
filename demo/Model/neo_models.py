@@ -124,6 +124,7 @@ class Neo4j():
 
 		relationDict = []
 
+		answer0 = self.graph.run("MATCH (n1:证据编号 {name:\""+str(entity1)+"\"})- [rel:rel*] -> (n0:地点) RETURN n1,rel,n0").data()
 		answer1 = self.graph.run("MATCH (n1:证据编号 {name:\""+str(entity1)+"\"})- [rel:rel*] -> (n2:证据效度) RETURN n1,rel,n2").data()
 		answer2 = self.graph.run("MATCH (n1:证据编号 {name:\"" + str(entity1) + "\"})- [rel:rel*] -> (n3:证据作用) RETURN n1,rel,n3").data()
 		answer3 = self.graph.run("MATCH (n1:证据编号 {name:\""+str(entity1)+"\"})- [rel:rel*] -> (n4:证据来源出处) RETURN n1,rel,n4").data()
@@ -134,6 +135,7 @@ class Neo4j():
 			for i in range(0,len(answer1)):
 				tmp = {}
 
+				tmp['n0'] = answer0[i]['n0']
 				tmp['n1'] = answer1[i]['n1']
 				tmp['n2'] = answer1[i]['n2']
 				tmp['qz1'] = answer1[i]['rel']
@@ -145,6 +147,9 @@ class Neo4j():
 				tmp['qz4'] = answer4[i]['rel']
 				tmp['n6'] = answer5[i]['n6']
 				tmp['qz5'] = answer5[i]['rel']
+				tmp['score'] = round((float(tmp['qz1'][0]['type']) * int(tmp['n2']['score']) + float(tmp['qz2'][0]['type']) * int(tmp['n3']['score'])
+								+ float(tmp['qz3'][0]['type']) * int(tmp['n4']['score']) + float(tmp['qz4'][0]['type']) * int(tmp['n5'][
+									'score'])) * int(tmp['n6']['score']),2)
 				relationDict.append(tmp)
 		return relationDict
 
@@ -176,6 +181,8 @@ class Neo4j():
 				tmp['qz4'] = answer4[i]['rel']
 				tmp['n6'] = answer5[i]['n6']
 				tmp['qz5'] = answer5[i]['rel']
+				tmp['score'] = (tmp['qz1'][0]['type']*tmp['n2']['score']+tmp['qz2'][0]['type']*tmp['n3']['score']
+					+tmp['qz3'][0]['type']*tmp['n4']['score']+tmp['qz4'][0]['type']*tmp['n5']['score'])*tmp['n6']['score']
 				relationDict.append(tmp)
 		return relationDict
 

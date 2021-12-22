@@ -185,9 +185,15 @@ def proof(request):
 				for i in range(len(searchResult1)):
 					name = searchResult1[i]['n1']['name']
 					searchResult2=db.findProof(name)
+
 					if len(searchResult2) != 0:
-						searchResult.append(searchResult2)
+						searchResult.extend(searchResult2)
+			for i in range(1, len(searchResult)):
+				for j in range(0, len(searchResult) - i):
+					if searchResult[j]['score'] < searchResult[j + 1]['score']:
+						searchResult[j], searchResult[j + 1] = searchResult[j + 1], searchResult[j]
 			# searchResult = sort(searchResult)
+
 			return render(request,'type_display.html',{'searchResult':json.dumps(searchResult,ensure_ascii=False)})
 		else:
 			pass
