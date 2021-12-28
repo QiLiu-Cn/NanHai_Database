@@ -12,32 +12,32 @@
     <div class="row">
     <!--head start-->
     <div class="col-md-12">
-        <h3 class="page-header"><i class="icon_link_alt" aria-hidden="true"></i> 属性共现关联 </h3>
+        <h3 class="page-header"><i class="icon_link_alt" aria-hidden="true"></i> 图谱路径查询 </h3>
             <ol class="breadcrumb">
                 <li><i class="fa fa-home"></i><a href="\">Home</a></li>
-                <li><i class="icon_link_alt" aria-hidden="true"></i>属性共现关联</li>
+                <li><i class="icon_link_alt" aria-hidden="true"></i>图谱路径查询</li>
             </ol>
     </div>
 
     <div class = "col-md-12">
     	<div class = "panel panel-default">
 			<header class="panel-heading">
-            查询条件：查找相同属性的实体
+            查询条件：查找两个实体之间的最短路径，例“西沙群岛”+“黄岩岛”
        		</header>
        		<div class = "panel-body">
 
 			    <form  id ="searchRelationForm" class="form-inline" style="padding-left: 10% ; padding-right: 10%" method="get">
 			    	<div id = "entity1" class="form-group" style="padding: 2%">
-			        	<input type="text" id = "entity1_text" name = "entity1_text" class ="form-control" placeholder="属性" aria-describedby="basic-addon1">
+			        	<input type="text" id = "entity1_text" name = "entity1_text" class ="form-control" placeholder="结点1" aria-describedby="basic-addon1">
 			 		</div>
 
 			        <!--dropdown combobox end-->
-<!--			        <div id = "relation_name" class = "form-group hide" style="padding: 2%">-->
-<!--			        	 <input type="text" id = "relation_name_input" name = "relation_name_text" class ="form-control" placeholder="输入关系名称" aria-describedby="basic-addon1">-->
-<!--			        </div>-->
-<!--			        <div id = "entity2" class = "form-group" style="padding: 2%">-->
-<!--			        	 <input type="text" id = "entity2_text" name = "entity2_text" class ="form-control" placeholder="结点2" aria-describedby="basic-addon1">-->
-<!--			        </div>-->
+			        <div id = "relation_name" class = "form-group hide" style="padding: 2%">
+			        	 <input type="text" id = "relation_name_input" name = "relation_name_text" class ="form-control" placeholder="输入关系名称" aria-describedby="basic-addon1">
+			        </div>
+			        <div id = "entity2" class = "form-group" style="padding: 2%">
+			        	 <input type="text" id = "entity2_text" name = "entity2_text" class ="form-control" placeholder="结点2" aria-describedby="basic-addon1">
+			        </div>
 			        <div class="btn-group" style="padding: 2%">
 			            <button type="button" id="btnSearch" class="btn btn-primary" onclick = "document.getElementById('searchRelationForm').submit();">查询</button>
 			        </div>
@@ -53,7 +53,8 @@
 			</header>
 			<div class = "panel-body">
 				<div style="padding: 2%">
-					<h2>暂未找到相应的匹配</h2>
+<!--					<h2>暂未找到相应的匹配</h2>-->
+					<img src="../1.jpg"  />
 				</div>
 			</div>
 		</div>
@@ -97,25 +98,21 @@
         relationData = {} ;
         relationData['entity1'] = searchResult[i]['n1']['name'];
         relationData['content'] = searchResult[i]['n1']['content'];
-		relationData['relation'] = searchResult[i]['rel']['type'] ;
-		if ('refer' in searchResult[i]['n2']){
+        relationData['relation'] = searchResult[i]['rel']['type'] ;
+        if ('refer' in searchResult[i]['n2']){
 			relationData['entity2'] = searchResult[i]['n2']['refer'] ;
 		}
 		else{
 			relationData['entity2'] = searchResult[i]['n2']['name'] ;
 		}
-		relationData['pname'] = searchResult[i]['pname']
-
         tableData.push(relationData) ;
     }
     jQuery(function(){
         $('.table').footable({
-        "columns": [{"name":"entity1",title:"编号"} ,
-        		{"name":"content",title:"证据内容"} ,
-                  {"name":"relation",title:"关联"},
-                  {"name":"entity2",title:"证据实体"},
-				{"name":"entity3",title:"pname"},
-		],
+        "columns": [{"name":"entity1",title:"Entity1"} ,
+        		{"name":"content",title:"Content"} ,
+                  {"name":"relation",title:"Relation"},
+                  {"name":"entity2",title:"Entity2"}],
         "rows": tableData
         });
     });
@@ -156,7 +153,7 @@
         	data.push(node1) ;
         }
 
-         //获取node2
+        //获取node2
         node2 = {} ;
         node2['name'] = searchResult[i]['n2']['name'] ;
         node2['draggable'] = true ;
@@ -180,31 +177,6 @@
         	id++ ;
         	data.push(node2) ;
         }
-
-		 //获取node3
-        node3 = {} ;
-        node3['name'] = searchResult[i]['pname'] ;
-        node3['draggable'] = true ;
-        if('url' in searchResult[i]){
-            node3['category'] = 1 ;
-        }
-        else{
-            node3['category'] = 2 ;
-        }
-        flag = 1 ;
-        relationTarget = id.toString() ;
-        for(var j = 0 ; j<data.length ;j++){
-        	if(data[j]['name'] === node3['name']){
-        		flag = 0 ;
-        		relationTarget = data[j]['id'] ;
-        		break ;
-        	}
-        }
-        node3['id'] = relationTarget ;
-        if(flag === 1){
-        	id++ ;
-        	data.push(node3) ;
-        }
         //获取relation
         relation = {}
         relation['source'] = node1['id'];
@@ -220,24 +192,6 @@
         }
         if(flag === 1){
         	relation['value'] = searchResult[i]['rel']['type'] ;
-        	relation['symbolSize'] = 10;
-        	links.push(relation) ;
-        }
-		//
-		relation = {}
-        relation['source'] = node2['id'];
-        relation['target'] = node3['id'] ;
-        relation['category'] = 0 ;
-        flag = 1;
-        for(var j = 0 ;j<links.length;j++){
-        	if(links[j]['source'] == relation['source'] && links[j]['target'] == relation['target']){
-        		links[j]['value'] = links[j]['value'] + '';
-        		flag = 0 ;
-        		break ;
-        	}
-        }
-        if(flag === 1){
-        	relation['value'] = '';
         	relation['symbolSize'] = 10;
         	links.push(relation) ;
         }

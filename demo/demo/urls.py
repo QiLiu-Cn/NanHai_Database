@@ -17,8 +17,9 @@ urlpatterns = [
     url(r'^search_road',relation_view.search_relation),
     url(r'^qa', question_answering.question_answering),
     path('user/', include('user.urls')),
-    url(r'^zhengminglidaxiao',relation_view.search_proof),
-    # url(r'attribute_contribute',relation_view.search_attribute)
+    url(r'^zhengminglidaxiao',relation_view.search_on),
+    url(r'attribute_contribute',relation_view.search_attribute),
     url(r'^type_display',relation_view.proof),
+    url(r'^prooflogic',relation_view.search_logic),
 
 ]

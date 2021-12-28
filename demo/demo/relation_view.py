@@ -17,7 +17,7 @@ with open(filePath+"/toolkit/relationStaticResult.txt","r",encoding='utf8') as f
 		relationCount = relationNameCount[1][1:-2]
 		relationCountDict[relationName] = int(relationCount)
 def sortDict(relationDict):
-	for i in range( len(relationDict) ):
+	for i in range(0, len(relationDict)):
 		relationName = relationDict[i]['rel']['type']
 		relationCount = relationCountDict.get(relationName)
 		if(relationCount is None ):
@@ -193,6 +193,9 @@ def proof(request):
 					if searchResult[j]['score'] < searchResult[j + 1]['score']:
 						searchResult[j], searchResult[j + 1] = searchResult[j + 1], searchResult[j]
 			# searchResult = sort(searchResult)
+			for i in range(0, len(searchResult)):
+				for j in range(0, i+1):
+					searchResult[i]['rank%d'%j] = searchResult[j]['n1']['name']
 
 			return render(request,'type_display.html',{'searchResult':json.dumps(searchResult,ensure_ascii=False)})
 		else:
@@ -203,4 +206,92 @@ def proof(request):
 
 	return render(request, 'type_display.html', {'ctx': ctx})
 
-# def search_attribute(request):
+
+def search_on(request):
+	ctx = {}
+	if (request.GET):
+		db = neo_con
+		entity1 = request.GET['entity1_text']
+		# relation = request.GET['relation_name_text']
+		entity2 = request.GET['entity2_text']
+		# relation = relation.lower()
+		# searchResult = {}
+
+		if (len(entity1) != 0 and entity2 == '证明力大小查询'):
+			searchResult = db.findProof(entity1)
+			# searchResult = sortDict(searchResult)
+			if (len(searchResult) > 0):
+				return render(request, 'zhengminglidaxiao.html',{'searchResult': json.dumps(searchResult, ensure_ascii=False)})
+
+		if (len(entity1)!=0 and entity2 == '证明力大小关联'):
+			searchResult = []
+			searchResult1 = db.findRelationByEntity2(entity1)
+			searchResult1 = sortDict(searchResult1)
+			if (len(searchResult1) > 0):
+				for i in range(len(searchResult1)):
+					name = searchResult1[i]['n1']['name']
+					searchResult2 = db.findProof(name)
+
+					if len(searchResult2) != 0:
+						searchResult.extend(searchResult2)
+
+			# 进行冒泡排序，对证据进行证明力大小的排序
+			for i in range(1, len(searchResult)):
+				for j in range(0, len(searchResult) - i):
+					if searchResult[j]['score'] < searchResult[j + 1]['score']:
+						searchResult[j], searchResult[j + 1] = searchResult[j + 1], searchResult[j]
+
+			for i in range(1, len(searchResult)):
+				searchResult[i]['pname'] = searchResult[i-1]['n1']['name']
+			return render(request, 'type_display.html', {'searchResult': json.dumps(searchResult, ensure_ascii=False)})
+
+		else:
+			pass
+
+		ctx = {'title': '<h1>暂未找到相应的匹配</h1>'}
+		return render(request, 'zhengminglidaxiao.html', {'ctx': ctx})
+
+	return render(request, 'zhengminglidaxiao.html', {'ctx': ctx})
+
+def search_attribute(request):
+	ctx = {}
+	if (request.GET):
+		db = neo_con
+		entity1 = request.GET['entity1_text']
+		# relation = request.GET['relation_name_text']
+		# entity2 = request.GET['entity2_text']
+		# relation = relation.lower()
+		searchResult = {}
+
+		if (len(entity1) != 0):
+			searchResult = db.findAttribute(entity1)
+			searchResult = sortDict(searchResult)
+			if (len(searchResult) > 0):
+				return render(request, 'attribute_contribute.html', {'searchResult': json.dumps(searchResult, ensure_ascii=False)})
+			for i in range(len(searchResult)):
+				searchResult[i]['pname'] = 'entity1'
+		else:
+			pass
+		ctx = {'title': '<h1>暂未找到相应的匹配</h1>'}
+		return render(request, 'attribute_contribute.html', {'ctx': ctx})
+
+	return render(request, 'attribute_contribute.html', {'ctx': ctx})
+
+def search_logic(request):
+	ctx = {}
+	if (request.GET):
+		db = neo_con
+		entity1 = request.GET['entity1_text']
+		# relation = request.GET['relation_name_text']
+		# entity2 = request.GET['entity2_text']
+		# relation = relation.lower()
+		searchResult = {}
+
+		if (len(entity1) != 0):
+			pass
+		else:
+			pass
+		ctx = {'title': '<h1>暂未找到相应的匹配</h1>'}
+		return render(request, 'prooflogic.html', {'ctx': ctx})
+
+	return render(request, 'prooflogic.html', {'ctx': ctx})

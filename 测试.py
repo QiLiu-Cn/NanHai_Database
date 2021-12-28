@@ -64,3 +64,5 @@ for i in range(1, len(k)):
         if k[j]['w']<k[j+1]['w']:
             k[j],k[j+1] = k[j+1],k[j]
 print(k)
+
+print('sada%d'%1)

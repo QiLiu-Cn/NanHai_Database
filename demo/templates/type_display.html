@@ -22,8 +22,7 @@
     <div class = "col-md-12">
     	<div class = "panel panel-default">
 			<header class="panel-heading">
-            查询条件：查找一个地点的证据大小关联（如西沙群岛等）
-       		</header>
+			查询条件：查找一个证据的大小（如82、624+证明力大小查询）、一个地点的证据大小排序（如西沙群岛、黄岩岛+证明力大小关联）       		</header>
        		<div class = "panel-body">
 
 			    <form  id ="searchRelationForm" class="form-inline" style="padding-left: 10% ; padding-right: 10%" method="get">
@@ -35,9 +34,9 @@
 <!--			        <div id = "relation_name" class = "form-group hide" style="padding: 2%">-->
 <!--			        	 <input type="text" id = "relation_name_input" name = "relation_name_text" class ="form-control" placeholder="输入关系名称" aria-describedby="basic-addon1">-->
 <!--			        </div>-->
-<!--			        <div id = "entity2" class = "form-group" style="padding: 2%">-->
-<!--			        	 <input type="text" id = "entity2_text" name = "entity2_text" class ="form-control" placeholder="结点2" aria-describedby="basic-addon1">-->
-<!--			        </div>-->
+			        <div id = "entity2" class = "form-group" style="padding: 2%">
+			        	 <input type="text" id = "entity2_text" name = "entity2_text" class ="form-control" placeholder="结点2" aria-describedby="basic-addon1">
+			        </div>
 			        <div class="btn-group" style="padding: 2%">
 			            <button type="button" id="btnSearch" class="btn btn-primary" onclick = "document.getElementById('searchRelationForm').submit();">查询</button>
 			        </div>
@@ -171,46 +170,122 @@
     //构造展示的数据
     var maxDisPlayNode = 15 ;
     var id = 0 ;
-    for( var i = 0 ;id < maxDisPlayNode&& i<searchResult.length ; i++ ){
+	var num = searchResult.length
+
+// 	var data1 = []
+// 	var links1 = []
+// 	node1 = {} ;
+// 	node1['name'] = searchResult[0]['n0']['name'] ;
+// 	node1['draggable'] = true ;
+// 	if('url' in searchResult[0]['n0']){
+// 		node1['category'] = 1 ;
+// 	}
+// 	else{
+// 		node1['category'] = 2 ;
+// 	}
+// 	var flag = 1 ;
+//
+// 	relationTarget = id.toString() ;
+// 	for(var j = 0 ; j<data1.length ;j++){
+// 		if(data1[j]['name'] === node1['name']){
+// 			flag = 0 ;
+// 			relationTarget = data1[j]['id'] ;
+// 			break ;
+// 		}
+// 	}
+//
+// 	node1['id'] = relationTarget ;
+// 	if(flag === 1){
+// 		id++ ;
+// 		data1.push(node1) ;
+// 	}
+//
+// //获取node2
+// 	node2 = {} ;
+// 	node2['name'] = searchResult[0]['n1']['name'];
+// 	node2['draggable'] = true ;
+// 	if('url' in searchResult[0]['n1']){
+// 		node2['category'] = 1 ;
+// 	}
+// 	else{
+// 		node2['category'] = 2 ;
+// 	}
+// 	flag = 1 ;
+// 	relationTarget = id.toString() ;
+// 	for(var j = 0 ; j<data1.length ;j++){
+// 		if(data1[j]['name'] === node2['name']){
+// 			flag = 0 ;
+// 			relationTarget = data1[j]['id'] ;
+// 			break ;
+// 		}
+// 	}
+// 	node2['id'] = relationTarget ;
+// 	if(flag === 1){
+// 		id++ ;
+// 		data1.push(node2) ;
+// 	}
+//
+// 	获取relation
+// 	relation = {}
+// 	relation['source'] = node1['id'];
+// 	relation['target'] = node2['id'] ;
+// 	relation['category'] = 0 ;
+// 	flag = 1;
+// 	for(var j = 0 ;j<links1.length;j++){
+// 		if(links1[j]['source'] == relation['source'] && links1[j]['target'] == relation['target']){
+// 			links1[j]['value'] = links1[j]['value']  + '';
+// 			flag = 0 ;
+// 			break ;
+// 		}
+// 	}
+
+
+
+	if(flag === 1){
+		relation['value'] = '' ;
+		relation['symbolSize'] = 10;
+		links1.push(relation) ;
+	}
+
+    for( var i = 1 ;id < maxDisPlayNode&& i<searchResult.length ; i++ ){
         //获取node1
-        node1 = {} ;
-        node1['name'] = searchResult[i]['n1']['name'] ;
-        node1['content'] =  searchResult[i]['n1']['content'] ;
-        node1['draggable'] = true ;
-        if('url' in searchResult[i]['n1']){
-            node1['category'] = 1 ;
-        }
-        else{
-            node1['category'] = 2 ;
-        }
-        var flag = 1 ;
-
-        relationTarget = id.toString() ;
-        for(var j = 0 ; j<data.length ;j++){
-        	if(data[j]['name'] === node1['name']){
-        		flag = 0 ;
-        		relationTarget = data[j]['id'] ;
-        		break ;
-        	}
-        }
-
-        node1['id'] = relationTarget ;
-        if(flag === 1){
-        	id++ ;
-        	data.push(node1) ;
-        }
+        // node1 = {} ;
+        // node1['name'] = searchResult[i]['n0']['name'] ;
+        // node1['draggable'] = true ;
+        // if('url' in searchResult[i]['n0']){
+        //     node1['category'] = 1 ;
+        // }
+        // else{
+        //     node1['category'] = 2 ;
+        // }
+        // var flag = 1 ;
+		//
+        // relationTarget = id.toString() ;
+        // for(var j = 0 ; j<data.length ;j++){
+        // 	if(data[j]['name'] === node1['name']){
+        // 		flag = 0 ;
+        // 		relationTarget = data[j]['id'] ;
+        // 		break ;
+        // 	}
+        // }
+		//
+        // node1['id'] = relationTarget ;
+        // if(flag === 1){
+        // 	id++ ;
+        // 	data.push(node1) ;
+        // }
 
         //获取node2
         node2 = {} ;
-        node2['name'] = searchResult[i]['n2']['name'] ;
+        node2['name'] = searchResult[i]['n1']['name'] ;
         node2['draggable'] = true ;
-        if('url' in searchResult[i]['n2']){
+        if('url' in searchResult[i]['n1']){
             node2['category'] = 1 ;
         }
         else{
             node2['category'] = 2 ;
         }
-        flag = 1 ;
+        var flag = 1 ;
         relationTarget = id.toString() ;
         for(var j = 0 ; j<data.length ;j++){
         	if(data[j]['name'] === node2['name']){
@@ -227,9 +302,9 @@
 
 		//获取node3
 		node3 = {} ;
-        node3['name'] = searchResult[i]['n3']['name'] ;
+        node3['name'] = searchResult[i]['pname'] ;
         node3['draggable'] = true ;
-        if('url' in searchResult[i]['n3']){
+        if('url' in searchResult[i]){
             node3['category'] = 1 ;
         }
         else{
@@ -249,100 +324,103 @@
         	id++ ;
         	data.push(node3) ;
         }
-
-		//获取node4
-		node4 = {} ;
-        node4['name'] = searchResult[i]['n4']['name'] ;
-        node4['draggable'] = true ;
-        if('url' in searchResult[i]['n4']){
-            node4['category'] = 1 ;
-        }
-        else{
-            node4['category'] = 2 ;
-        }
-        flag = 1 ;
-        relationTarget = id.toString() ;
-        for(var j = 0 ; j<data.length ;j++){
-        	if(data[j]['name'] === node4['name']){
-        		flag = 0 ;
-        		relationTarget = data[j]['id'] ;
-        		break ;
-        	}
-        }
-        node4['id'] = relationTarget ;
-        if(flag === 1){
-        	id++ ;
-        	data.push(node4) ;
-        }
-
-		//获取node5
-		node5 = {} ;
-        node5['name'] = searchResult[i]['n5']['name'] ;
-        node5['draggable'] = true ;
-        if('url' in searchResult[i]['n5']){
-            node5['category'] = 1 ;
-        }
-        else{
-            node5['category'] = 2 ;
-        }
-        flag = 1 ;
-        relationTarget = id.toString() ;
-        for(var j = 0 ; j<data.length ;j++){
-        	if(data[j]['name'] === node5['name']){
-        		flag = 0 ;
-        		relationTarget = data[j]['id'] ;
-        		break ;
-        	}
-        }
-        node5['id'] = relationTarget ;
-        if(flag === 1){
-        	id++ ;
-        	data.push(node5) ;
-        }
-
-		//获取node6
-		node6 = {} ;
-        node6['name'] = searchResult[i]['n6']['name'] ;
-        node6['draggable'] = true ;
-        if('url' in searchResult[i]['n6']){
-            node6['category'] = 1 ;
-        }
-        else{
-            node6['category'] = 2 ;
-        }
-        flag = 1 ;
-        relationTarget = id.toString() ;
-        for(var j = 0 ; j<data.length ;j++){
-        	if(data[j]['name'] === node6['name']){
-        		flag = 0 ;
-        		relationTarget = data[j]['id'] ;
-        		break ;
-        	}
-        }
-        node6['id'] = relationTarget ;
-        if(flag === 1){
-        	id++ ;
-        	data.push(node6) ;
-        }
+		//
+		// //获取node4
+		// node4 = {} ;
+        // node4['name'] = searchResult[i]['n4']['name'] ;
+        // node4['draggable'] = true ;
+        // if('url' in searchResult[i]['n4']){
+        //     node4['category'] = 1 ;
+        // }
+        // else{
+        //     node4['category'] = 2 ;
+        // }
+        // flag = 1 ;
+        // relationTarget = id.toString() ;
+        // for(var j = 0 ; j<data.length ;j++){
+        // 	if(data[j]['name'] === node4['name']){
+        // 		flag = 0 ;
+        // 		relationTarget = data[j]['id'] ;
+        // 		break ;
+        // 	}
+        // }
+        // node4['id'] = relationTarget ;
+        // if(flag === 1){
+        // 	id++ ;
+        // 	data.push(node4) ;
+        // }
+		//
+		// //获取node5
+		// node5 = {} ;
+        // node5['name'] = searchResult[i]['n5']['name'] ;
+        // node5['draggable'] = true ;
+        // if('url' in searchResult[i]['n5']){
+        //     node5['category'] = 1 ;
+        // }
+        // else{
+        //     node5['category'] = 2 ;
+        // }
+        // flag = 1 ;
+        // relationTarget = id.toString() ;
+        // for(var j = 0 ; j<data.length ;j++){
+        // 	if(data[j]['name'] === node5['name']){
+        // 		flag = 0 ;
+        // 		relationTarget = data[j]['id'] ;
+        // 		break ;
+        // 	}
+        // }
+        // node5['id'] = relationTarget ;
+        // if(flag === 1){
+        // 	id++ ;
+        // 	data.push(node5) ;
+        // }
+		//
+		// //获取node6
+		// node6 = {} ;
+        // node6['name'] = searchResult[i]['n6']['name'] ;
+        // node6['draggable'] = true ;
+        // if('url' in searchResult[i]['n6']){
+        //     node6['category'] = 1 ;
+        // }
+        // else{
+        //     node6['category'] = 2 ;
+        // }
+        // flag = 1 ;
+        // relationTarget = id.toString() ;
+        // for(var j = 0 ; j<data.length ;j++){
+        // 	if(data[j]['name'] === node6['name']){
+        // 		flag = 0 ;
+        // 		relationTarget = data[j]['id'] ;
+        // 		break ;
+        // 	}
+        // }
+        // node6['id'] = relationTarget ;
+        // if(flag === 1){
+        // 	id++ ;
+        // 	data.push(node6) ;
+        // }
 
         //获取relation
-        relation = {}
-        relation['source'] = node1['id'];
-        relation['target'] = node2['id'] ;
-        relation['category'] = 0 ;
-        flag = 1;
-        for(var j = 0 ;j<links.length;j++){
-        	if(links[j]['source'] == relation['source'] && links[j]['target'] == relation['target']){
-        		links[j]['value'] = links[j]['value'] + searchResult[i]['qz1'][0]['type'] ;
-        		flag = 0 ;
-        		break ;
-        	}
-        }
-        if(flag === 1){
-        	relation['value'] = searchResult[i]['qz1'][0]['type'] ;
-        	relation['symbolSize'] = 10;
-        	links.push(relation) ;
-        }
+        // relation = {}
+        // relation['source'] = node1['id'];
+        // relation['target'] = node2['id'] ;
+        // relation['category'] = 0 ;
+        // flag = 1;
+        // for(var j = 0 ;j<links.length;j++){
+        // 	if(links[j]['source'] == relation['source'] && links[j]['target'] == relation['target']){
+        // 		links[j]['value'] = links[j]['value'] + searchResult[i]['score'] ;
+        // 		flag = 0 ;
+        // 		break ;
+        // 	}
+        // }
+		//
+		//
+		//
+        // if(flag === 1){
+        // 	relation['value'] = searchResult[i]['score'] ;
+        // 	relation['symbolSize'] = 10;
+        // 	links.push(relation) ;
+        // }
 
 		//获取relation（test）
 		relation = {}
@@ -352,73 +430,73 @@
         flag = 1;
         for(var j = 0 ;j<links.length;j++){
         	if(links[j]['source'] == relation['source'] && links[j]['target'] == relation['target']){
-        		links[j]['value'] = links[j]['value'] + searchResult[i]['qz2'][0]['type'] ;
+        		links[j]['value'] = links[j]['value'] + searchResult[i]['score'] ;
         		flag = 0 ;
         		break ;
         	}
         }
         if(flag === 1){
-        	relation['value'] = searchResult[i]['qz2'][0]['type'] ;
+        	relation['value'] = searchResult[i]['score'] ;
         	relation['symbolSize'] = 10;
         	links.push(relation) ;
         }
 
-		//获取relation（test）
-		relation = {}
-        relation['source'] = node3['id'];
-        relation['target'] = node4['id'] ;
-        relation['category'] = 0 ;
-        flag = 1;
-        for(var j = 0 ;j<links.length;j++){
-        	if(links[j]['source'] == relation['source'] && links[j]['target'] == relation['target']){
-        		links[j]['value'] = links[j]['value'] + searchResult[i]['qz3'][0]['type'] ;
-        		flag = 0 ;
-        		break ;
-        	}
-        }
-        if(flag === 1){
-        	relation['value'] = searchResult[i]['qz3'][0]['type'] ;
-        	relation['symbolSize'] = 10;
-        	links.push(relation) ;
-        }
-
-		//获取relation（test）
-		relation = {}
-        relation['source'] = node4['id'];
-        relation['target'] = node5['id'] ;
-        relation['category'] = 0 ;
-        flag = 1;
-        for(var j = 0 ;j<links.length;j++){
-        	if(links[j]['source'] == relation['source'] && links[j]['target'] == relation['target']){
-        		links[j]['value'] = links[j]['value'] + searchResult[i]['qz4'][0]['type'] ;
-        		flag = 0 ;
-        		break ;
-        	}
-        }
-        if(flag === 1){
-        	relation['value'] = searchResult[i]['qz4'][0]['type'] ;
-        	relation['symbolSize'] = 10;
-        	links.push(relation) ;
-        }
-
-		//获取relation（test）
-		relation = {}
-        relation['source'] = node5['id'];
-        relation['target'] = node6['id'] ;
-        relation['category'] = 0 ;
-        flag = 1;
-        for(var j = 0 ;j<links.length;j++){
-        	if(links[j]['source'] == relation['source'] && links[j]['target'] == relation['target']){
-        		links[j]['value'] = links[j]['value'] + searchResult[i]['qz5'][0]['type'] ;
-        		flag = 0 ;
-        		break ;
-        	}
-        }
-        if(flag === 1){
-        	relation['value'] = searchResult[i]['qz5'][0]['type'] ;
-        	relation['symbolSize'] = 10;
-        	links.push(relation) ;
-        }
+		// //获取relation（test）
+		// relation = {}
+        // relation['source'] = node3['id'];
+        // relation['target'] = node4['id'] ;
+        // relation['category'] = 0 ;
+        // flag = 1;
+        // for(var j = 0 ;j<links.length;j++){
+        // 	if(links[j]['source'] == relation['source'] && links[j]['target'] == relation['target']){
+        // 		links[j]['value'] = links[j]['value'] + searchResult[i]['qz3'][0]['type'] ;
+        // 		flag = 0 ;
+        // 		break ;
+        // 	}
+        // }
+        // if(flag === 1){
+        // 	relation['value'] = searchResult[i]['qz3'][0]['type'] ;
+        // 	relation['symbolSize'] = 10;
+        // 	links.push(relation) ;
+        // }
+		//
+		// //获取relation（test）
+		// relation = {}
+        // relation['source'] = node4['id'];
+        // relation['target'] = node5['id'] ;
+        // relation['category'] = 0 ;
+        // flag = 1;
+        // for(var j = 0 ;j<links.length;j++){
+        // 	if(links[j]['source'] == relation['source'] && links[j]['target'] == relation['target']){
+        // 		links[j]['value'] = links[j]['value'] + searchResult[i]['qz4'][0]['type'] ;
+        // 		flag = 0 ;
+        // 		break ;
+        // 	}
+        // }
+        // if(flag === 1){
+        // 	relation['value'] = searchResult[i]['qz4'][0]['type'] ;
+        // 	relation['symbolSize'] = 10;
+        // 	links.push(relation) ;
+        // }
+		//
+		// //获取relation（test）
+		// relation = {}
+        // relation['source'] = node5['id'];
+        // relation['target'] = node6['id'] ;
+        // relation['category'] = 0 ;
+        // flag = 1;
+        // for(var j = 0 ;j<links.length;j++){
+        // 	if(links[j]['source'] == relation['source'] && links[j]['target'] == relation['target']){
+        // 		links[j]['value'] = links[j]['value'] + searchResult[i]['qz5'][0]['type'] ;
+        // 		flag = 0 ;
+        // 		break ;
+        // 	}
+        // }
+        // if(flag === 1){
+        // 	relation['value'] = searchResult[i]['qz5'][0]['type'] ;
+        // 	relation['symbolSize'] = 10;
+        // 	links.push(relation) ;
+        // }
 
     }
 

@@ -154,39 +154,12 @@ class Neo4j():
 		return relationDict
 
 
-	def ProofComb(self,entity1):
+	# 查找某个相关的所有证据
+	def findAttribute(self,entity1):
+		answer = self.graph.run(
+			"MATCH (n1:证据编号)- [rel] -> (n2) where n2.name contains \""+str(entity1)+"\" RETURN n1,rel,n2").data()
+		# if (answer is None):
+		# 	answer = self.graph.run(
+		# 	"MATCH (n1:证据编号)- [rel:rel*] -> (n2:主体) where n2.name contains \""+str(entity1)+"\" RETURN n1,rel,n2").data()
 
-		relationDict = []
-
-		answer0 = self.graph.run("MATCH (p:地点 {name:\""+str(entity1)+"\"})- [rel:rel*] -> (n1:证据编号) RETURN p,rel,n1").data()
-		answer1 = self.graph.run("MATCH (p:地点 {name:\""+str(entity1)+"\"})- [rel:rel*] -> (n2:证据效度) RETURN p,rel,n2").data()
-		answer2 = self.graph.run("MATCH (p:地点 {name:\"" + str(entity1) + "\"})- [rel:rel*] -> (n3:证据作用) RETURN p,rel,n3").data()
-		answer3 = self.graph.run("MATCH (p:地点 {name:\""+str(entity1)+"\"})- [rel:rel*] -> (n4:证据来源出处) RETURN p,rel,n4").data()
-		answer4 = self.graph.run("MATCH (p:地点 {name:\""+str(entity1)+"\"})- [rel:rel*] -> (n5:证据来源主体) RETURN p,rel,n5").data()
-		answer5 = self.graph.run("MATCH (p:地点 {name:\""+str(entity1)+"\"})- [rel:rel*] -> (n6:证据倾向) RETURN p,rel,n6").data()
-
-		if (answer0 is not None and answer1 is not None and answer2 is not None and answer3 is not None  and answer4 is not None and answer5 is not None):
-			for i in range(0,len(answer0)):
-				tmp = {}
-				tmp['p'] = answer0[i]['p']
-				tmp['loc'] = answer0[i]['rel']
-				tmp['n1'] = answer0[i]['n1']
-				tmp['n2'] = answer1[i]['n2']
-				tmp['qz1'] = answer1[i]['rel']
-				tmp['n3'] = answer2[i]['n3']
-				tmp['qz2'] = answer2[i]['rel']
-				tmp['n4'] = answer3[i]['n4']
-				tmp['qz3'] = answer3[i]['rel']
-				tmp['n5'] = answer4[i]['n5']
-				tmp['qz4'] = answer4[i]['rel']
-				tmp['n6'] = answer5[i]['n6']
-				tmp['qz5'] = answer5[i]['rel']
-				tmp['score'] = (tmp['qz1'][0]['type']*tmp['n2']['score']+tmp['qz2'][0]['type']*tmp['n3']['score']
-					+tmp['qz3'][0]['type']*tmp['n4']['score']+tmp['qz4'][0]['type']*tmp['n5']['score'])*tmp['n6']['score']
-				relationDict.append(tmp)
-		return relationDict
-
-
-
-	# def findattribute(self,entiyu1):
-
+		return answer
