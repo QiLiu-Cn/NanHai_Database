@@ -243,6 +243,10 @@ def search_on(request):
 
 			for i in range(1, len(searchResult)):
 				searchResult[i]['pname'] = searchResult[i-1]['n1']['name']
+
+			for i in range( len(searchResult)):
+				searchResult[i]['mid'] = 0
+
 			return render(request, 'type_display.html', {'searchResult': json.dumps(searchResult, ensure_ascii=False)})
 
 		else:
@@ -258,18 +262,17 @@ def search_attribute(request):
 	if (request.GET):
 		db = neo_con
 		entity1 = request.GET['entity1_text']
-		# relation = request.GET['relation_name_text']
-		# entity2 = request.GET['entity2_text']
-		# relation = relation.lower()
 		searchResult = {}
 
 		if (len(entity1) != 0):
 			searchResult = db.findAttribute(entity1)
 			searchResult = sortDict(searchResult)
 			if (len(searchResult) > 0):
+				for i in range(len(searchResult)):
+					searchResult[i]['pname'] = entity1
 				return render(request, 'attribute_contribute.html', {'searchResult': json.dumps(searchResult, ensure_ascii=False)})
-			for i in range(len(searchResult)):
-				searchResult[i]['pname'] = 'entity1'
+			# for i in range(len(searchResult)):
+			# 	searchResult[i]['pname'] = entity1
 		else:
 			pass
 		ctx = {'title': '<h1>暂未找到相应的匹配</h1>'}

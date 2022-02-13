@@ -104,18 +104,15 @@
 		else{
 			relationData['entity2'] = searchResult[i]['n2']['name'] ;
 		}
-		relationData['pname'] = searchResult[i]['pname']
 
         tableData.push(relationData) ;
     }
     jQuery(function(){
         $('.table').footable({
         "columns": [{"name":"entity1",title:"编号"} ,
-        		{"name":"content",title:"证据内容"} ,
-                  {"name":"relation",title:"关联"},
-                  {"name":"entity2",title:"证据实体"},
-				{"name":"entity3",title:"pname"},
-		],
+        			{"name":"content",title:"证据内容"} ,
+                  	{"name":"relation",title:"关联"},
+                  	{"name":"entity2",title:"证据实体"},],
         "rows": tableData
         });
     });
@@ -125,7 +122,7 @@
     var links = [] ;
 
     //构造展示的数据
-    var maxDisPlayNode = 15 ;
+    var maxDisPlayNode = 40 ;
     var id = 0 ;
     for( var i = 0 ;id < maxDisPlayNode&& i<searchResult.length ; i++ ){
         //获取node1

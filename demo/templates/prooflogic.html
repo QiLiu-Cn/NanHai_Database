@@ -12,17 +12,17 @@
     <div class="row">
     <!--head start-->
     <div class="col-md-12">
-        <h3 class="page-header"><i class="icon_link_alt" aria-hidden="true"></i> 图谱路径查询 </h3>
+        <h3 class="page-header"><i class="icon_link_alt" aria-hidden="true"></i> 论证逻辑关联 </h3>
             <ol class="breadcrumb">
                 <li><i class="fa fa-home"></i><a href="\">Home</a></li>
-                <li><i class="icon_link_alt" aria-hidden="true"></i>图谱路径查询</li>
+                <li><i class="icon_link_alt" aria-hidden="true"></i>论证逻辑关联</li>
             </ol>
     </div>
 
     <div class = "col-md-12">
     	<div class = "panel panel-default">
 			<header class="panel-heading">
-            查询条件：查找两个实体之间的最短路径，例“西沙群岛”+“黄岩岛”
+            查询条件：针对某个地点的论证结构图（如西沙群岛、黄岩岛+论证结构图）
        		</header>
        		<div class = "panel-body">
 
@@ -54,7 +54,12 @@
 			<div class = "panel-body">
 				<div style="padding: 2%">
 <!--					<h2>暂未找到相应的匹配</h2>-->
-					<img src="../1.jpg"  />
+					<img src="../static/2.png" height="400" width="800" />
+					<img src="../static/3.png" height="300" width="800" />
+					<img src="../static/4.png" height="300" width="800" />
+					<img src="../static/5.png" height="400" width="800" />
+					<img src="../static/6.png" height="190" width="800" />
+					<img src="../static/7.png" height="350" width="800" />
 				</div>
 			</div>
 		</div>
@@ -110,9 +115,9 @@
     jQuery(function(){
         $('.table').footable({
         "columns": [{"name":"entity1",title:"Entity1"} ,
-        		{"name":"content",title:"Content"} ,
-                  {"name":"relation",title:"Relation"},
-                  {"name":"entity2",title:"Entity2"}],
+					{"name":"content",title:"Content"} ,
+                  	{"name":"relation",title:"Relation"},
+                  	{"name":"entity2",title:"Entity2"}],
         "rows": tableData
         });
     });
